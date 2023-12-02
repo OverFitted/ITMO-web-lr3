@@ -8,71 +8,101 @@
     <title>ИТМО ВЕБ - основная страница</title>
     <h:outputStylesheet name="css/index.css" />
     <h:outputScript name="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js" />
+
+    <h:outputScript name="js/canvas.js" />
+    <script type="text/javascript">
+        window.addEventListener("DOMContentLoaded", () => {
+            initCanvas();
+
+            var results = #{resultsControllerBean.resultsAsJson};
+            results.forEach(result => {
+                addPointCanvas(null, result.x, result.y, result.r);
+            });
+
+            const canvas = document.getElementById("graph");
+            const form = document.getElementById("form");
+            canvas.addEventListener("click", (event) => {
+                const rect = canvas.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+
+                const r = document.getElementById("r").value;
+                const xValue = parseInt((x - 300) / 200 * r);
+                const yValue = (300 - y) / 200 * r;
+
+                $('#x').val(xValue);
+                $('#y').val(yValue);
+                $('#r').val(r);
+
+                addPointCanvas(event, xValue, yValue, r);
+                sendPoint();
+            });
+        });
+    </script>
 </h:head>
 
 <h:body>
-    <h:form>
+    <h:form prependId="false">
         <div class="input-container">
             <h5 class="mt-0">Координата X:</h5>
             <h:panelGrid columns="1" style="margin-bottom: 10px">
-                <p:inputText id="x" value="#{dataBean.x}"/>
-                <p:slider for="x" minValue="-2" maxValue="2" step="1"/>
+                <p:inputText id="x" value="#{dataBean.x}">
+                    <f:validateLongRange minimum="-2" maximum="2" />
+                </p:inputText>
+                <p:slider for="x" minValue="-2" maxValue="2" step="1" />
             </h:panelGrid>
 
             <h5 class="mt-0">Координата Y:</h5>
             <h:panelGrid columns="1" style="margin-bottom: 10px">
-                <p:inputText id="y" value="#{dataBean.y}"/>
+                <p:inputText id="y" value="#{dataBean.y}">
+                    <f:validateLongRange minimum="-5" maximum="3" />
+                </p:inputText>
             </h:panelGrid>
 
             <h5 class="mt-0">Радиус:</h5>
             <h:panelGrid columns="1" style="margin-bottom: 10px">
-                <p:inputText id="r" value="#{dataBean.r}"/>
-                <p:slider for="r" minValue="1" maxValue="4" step=".5"/>
+                <p:inputText id="r" value="#{dataBean.r}">
+                    <f:validateDoubleRange minimum="1" maximum="4" />
+                </p:inputText>
+                <p:slider for="r" minValue="1" maxValue="4" step=".5" />
             </h:panelGrid>
 
             <p:commandButton value="Send" styleClass="submit-btn" ajax="true"
                 actionListener="#{resultsControllerBean.addResult(dataBean.x, dataBean.y, dataBean.r)}"
-                update="@form results-table" />
+                update="results-table" onclick="addPointCanvas(null, parseInt($('#x').val()), parseFloat($('#y').val()), parseFloat($('#r').val()));" />
         </div>
+
+        <p:remoteCommand name="sendPoint"
+            actionListener="#{resultsControllerBean.addResult(dataBean.x, dataBean.y, dataBean.r)}"
+            update="results-table" />
+
+        <h:panelGroup id="canvasGroup">
+            <canvas id="graph" width="600" height="600"></canvas>
+        </h:panelGroup>
+
+        <p:dataTable var="result" value="#{resultsControllerBean.results}" id="results-table">
+            <p:column headerText="Координата X">
+                <h:outputText value="#{result.x}" />
+            </p:column>
+            <p:column headerText="Координата Y">
+                <h:outputText value="#{result.y}" />
+            </p:column>
+            <p:column headerText="Радиус R">
+                <h:outputText value="#{result.r}" />
+            </p:column>
+            <p:column headerText="Результат">
+                <h:outputText value="#{result.hit}" />
+            </p:column>
+            <p:column headerText="Время запроса">
+                <h:outputText value="#{result.requestTime}" />
+            </p:column>
+            <p:column headerText="Время выполнения">
+                <h:outputText value="#{result.executionTime}" />
+            </p:column>
+        </p:dataTable>
     </h:form>
 
-    <h:panelGroup id="canvasGroup">
-        <canvas id="graph" width="600" height="600" onclick="onCanvasClick()"></canvas>
-    </h:panelGroup>
-
-    <h:dataTable id="results-table" var="result" value="#{results}">
-        <h:column>
-            <f:facet name="header">Координата X</f:facet>
-            #{result.x}
-        </h:column>
-
-        <h:column>
-            <f:facet name="header">Координата Y</f:facet>
-            #{result.y}
-        </h:column>
-
-        <h:column>
-            <f:facet name="header">Радиус R</f:facet>
-            #{result.r}
-        </h:column>
-
-        <h:column>
-            <f:facet name="header">Результат</f:facet>
-            #{result.isHit}
-        </h:column>
-
-        <h:column>
-            <f:facet name="header">Время запроса</f:facet>
-            #{result.requestTime}
-        </h:column>
-
-        <h:column>
-            <f:facet name="header">Время выполнения</f:facet>
-            #{result.executionTime}
-        </h:column>
-    </h:dataTable>
-
-    <h:button styleClass="footer-button" value="Вернуться на стартовую страницу" outcome="start"/>
+    <h:button styleClass="footer-button" value="Вернуться на стартовую страницу" outcome="start" />
 </h:body>
 
 </html>

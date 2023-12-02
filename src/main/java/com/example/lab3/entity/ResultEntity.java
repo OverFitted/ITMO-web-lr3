@@ -2,7 +2,7 @@ package com.example.lab3.entity;
 
 import jakarta.persistence.*;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
@@ -14,7 +14,7 @@ public class ResultEntity {
     private double r;
     private boolean isHit;
     private double executionTime;
-    private Date requestTime;
+    private Timestamp requestTime;
 
     @Id
     @Column
@@ -74,11 +74,11 @@ public class ResultEntity {
     }
 
     @Column
-    public Date getRequestTime() {
+    public Timestamp getRequestTime() {
         return requestTime;
     }
 
-    public void setRequestTime(Date requestTime) {
+    public void setRequestTime(Timestamp requestTime) {
         this.requestTime = requestTime;
     }
 

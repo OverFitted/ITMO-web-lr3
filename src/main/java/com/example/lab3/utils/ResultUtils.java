@@ -8,9 +8,10 @@ public class ResultUtils {
         DAOFactory.getInstance().getResultDAO().addNewResult(resultEntity);
     }
 
-    
-
-    public static boolean checkHit(final int x, final double y, final double r) {
-        return (x >= 0 && y >= 0 && y <= r && x <= r) || (x <= 0 && y >= 0 && y <= x + r) || (x <= 0 && y <= 0 && x * x + y * y <= r * r);
+    public static boolean checkHit(final int x, final double y, final double R) {
+        boolean insideCircle = (x <= 0 && y >= 0) && (x * x + y * y <= R * R);
+        boolean insideRectangle = (x >= 0 && x <= R) && (y <= R && y >= R / 2);
+        boolean insideTriangle = (x <= 0 && y <= 0) && (y >= -x - R);
+        return insideCircle || insideRectangle || insideTriangle;
     }
 }

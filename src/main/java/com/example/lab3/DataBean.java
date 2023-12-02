@@ -13,7 +13,7 @@ import java.util.Objects;
 public class DataBean implements Serializable {
     private int x = 0;
     private double y = 0.0;
-    private double r = 0.0;
+    private double r = 1.0;
 
     public Integer[] getXValues() {
         return new Integer[] { -4, -3, -2, -1, 0, 1, 2, 3, 4 };

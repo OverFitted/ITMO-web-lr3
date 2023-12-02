@@ -3,10 +3,13 @@ package com.example.lab3;
 import jakarta.annotation.PostConstruct;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.example.lab3.db.DAOFactory;
 import com.example.lab3.entity.ResultEntity;
@@ -17,13 +20,15 @@ import com.example.lab3.utils.ResultUtils;
 public class ResultsControllerBean implements Serializable {
     private DataBean dataBean;
     private ArrayList<ResultEntity> results = new ArrayList<>();
+    private String resultsAsJson;
 
     @PostConstruct
     public void init() {
-        var resultsEntities = DAOFactory.getInstance().getResultDAO().getAllResults();
+        var daoFactory = DAOFactory.getInstance();
+        var resultDAO = daoFactory.getResultDAO();
+        var resultsEntities = resultDAO.getAllResults();
         results = new ArrayList<>(resultsEntities);
     }
-
 
     public void addResult(final int x, final double y, final double r) {
         Long startTime = System.nanoTime();
@@ -32,7 +37,7 @@ public class ResultsControllerBean implements Serializable {
         resultEntity.setX(x);
         resultEntity.setY(y);
         resultEntity.setR(r);
-        resultEntity.setRequestTime(new Date(System.currentTimeMillis()));
+        resultEntity.setRequestTime(new Timestamp(System.currentTimeMillis()));
         resultEntity.setHit(ResultUtils.checkHit(x, y, r));
 
         Double executionTime = (System.nanoTime() - startTime) / 1000.;
@@ -56,5 +61,20 @@ public class ResultsControllerBean implements Serializable {
 
     public void setResults(ArrayList<ResultEntity> results) {
         this.results = results;
+    }
+
+    public String getResultsAsJson() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            resultsAsJson = objectMapper.writeValueAsString(results);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            resultsAsJson = "[]";
+        }
+        return resultsAsJson;
+    }
+
+    public void setResultsAsJson(String resultsAsJson) {
+        this.resultsAsJson = resultsAsJson;
     }
 }
