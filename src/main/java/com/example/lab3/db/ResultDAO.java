@@ -1,8 +1,8 @@
-package com.example.eclipselinkormjsfdemo.worthant.jsfgraph.db;
-
-import com.example.eclipselinkormjsfdemo.worthant.jsfgraph.entity.ResultEntity;
+package com.example.lab3.db;
 
 import java.util.Collection;
+
+import com.example.lab3.entity.ResultEntity;
 
 public interface ResultDAO {
     void addNewResult(ResultEntity result);

@@ -1,10 +1,11 @@
-package com.example.eclipselinkormjsfdemo.worthant.jsfgraph.db;
+package com.example.lab3.db;
 
-import com.example.eclipselinkormjsfdemo.worthant.jsfgraph.entity.ResultEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.Root;
 
 import java.util.Collection;
+
+import com.example.lab3.entity.ResultEntity;
 
 public class ResultDAOImpl implements ResultDAO {
     private final EntityManager entityManager = JPAUtils.getFactory().createEntityManager();

@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>ИТМО ВЕБ - основная страница</title>
+    <h:outputStylesheet name="css/index.css" />
+    <h:outputScript name="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js" />
+</h:head>
+
+<h:body>
+    <h:form>
+        <div class="input-container">
+            <!-- Ввод координат X -->
+            <h:selectOneRadio id="x" value="#{dataBean.x}">
+                <f:selectItems value="#{[-4, -3, -2, -1, 0, 1, 2, 3, 4]}" var="num" itemLabel="#{num}"
+                    itemValue="#{num}" />
+            </h:selectOneRadio>
+
+            <!-- Ввод координат Y -->
+            <h:outputLabel for="y" value="Координата Y:" />
+            <h:inputText id="y" value="#{dataBean.y}" />
+
+            <!-- Ввод радиуса R -->
+            <h:selectOneRadio id="rads" value="#{dataBean.r}">
+                <f:selectItems value="#{[1, 1.5, 2, 2.5, 3]}" var="num" itemLabel="#{num}" itemValue="#{num}" />
+            </h:selectOneRadio>
+
+            <p:commandButton value="Send" styleClass="submit-btn" ajax="true"
+                actionListener="#{resultsControllerBean.addResult(dataBean.x, dataBean.y, dataBean.r)}"
+                update="@form results-table" />
+        </div>
+
+        <div class="image-container">
+            <h:graphicImage name="images/Areas2.png" alt="Область попадания точки" />
+        </div>
+
+        <!-- Таблица результатов -->
+        <h:dataTable id="results-table" var="result" value="#{dataBean.results}">
+            <h:column>
+                <f:facet name="header">Координата X</f:facet>
+                #{result.x}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Координата Y</f:facet>
+                #{result.y}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Радиус R</f:facet>
+                #{result.r}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Результат</f:facet>
+                #{result.hit}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Время запроса</f:facet>
+                #{result.requestTime}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Время выполнения</f:facet>
+                #{result.executionTime}
+            </h:column>
+        </h:dataTable>
+    </h:form>
+</h:body>
+
+</html>

@@ -1,46 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  Created by IntelliJ IDEA.
-  User: zerumi
-  Date: 27.10.2023
-  Time: 18:41
--->
 <!DOCTYPE html
-        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-    <title>Test for managed beans</title>
+    <title>ИТМО ВЕБ - Стартовая страница</title>
+    <h:outputStylesheet name="/static/css/index.css" />
+    <script type="text/javascript">
+        function updateTime() {
+            document.getElementById('form:currentTime').innerHTML = new Date().toLocaleString();
+        }
+        setInterval(updateTime, 10000);
+    </script>
 </h:head>
 
 <h:body>
-    <h:form>
-        <h:outputLabel for="x" value="Coordinate X (-5; 5)"/>
-        <h:inputText id="x" styleClass="coords-input" value="#{xBean.XBeanValue}"
-                     required="true" maxlength="7"
-                     requiredMessage="Value X is required"
-                     validatorMessage="The value must be from -5 to 5">
-            <f:converter converterId="jakarta.faces.Double"/>
-            <f:validateDoubleRange minimum="-5" maximum="5"/>
-        </h:inputText>
+    <h:form id="form">
+        <div class="header-info">
+            <h1>Информация о студенте</h1>
+            <p>ФИО: Козак Борис Павлович</p>
+            <p>Номер группы: P3221</p>
+            <p>Номер варианта: 2178</p>
+        </div>
 
-        <h:commandButton value="Send" styleClass="submit-btn">
-            <f:ajax execute="@form" listener="#{resultsControllerBean.addResult(xBean.XBeanValue)}" render="@form results-table"/>
-        </h:commandButton>
+        <h:outputText id="currentTime" value="#{bean.getCurrentTime()}" escape="false" />
+
+        <h:commandLink value="Перейти на основную страницу" action="mainPage" />
     </h:form>
-
-    <h:dataTable id="results-table" var="result" value="#{resultsControllerBean.results}">
-        <h:column>
-            <f:facet name="header">
-                <h:outputText value="x"/>
-            </f:facet>
-            <h:outputText value="#{result}"/>
-        </h:column>
-    </h:dataTable>
 </h:body>
 
 </html>
