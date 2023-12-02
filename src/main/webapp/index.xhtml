@@ -6,12 +6,16 @@
 
 <h:head>
     <title>ИТМО ВЕБ - Стартовая страница</title>
-    <h:outputStylesheet name="/static/css/index.css" />
+    <h:outputStylesheet name="css/index.css" />
     <script type="text/javascript">
         function updateTime() {
-            document.getElementById('form:currentTime').innerHTML = new Date().toLocaleString();
+            document.getElementById('currentTime').innerHTML = new Date().toLocaleString();
         }
         setInterval(updateTime, 10000);
+
+        window.addEventListener("DOMContentLoaded", () => {
+            updateTime();
+        });
     </script>
 </h:head>
 
@@ -22,11 +26,9 @@
             <p>ФИО: Козак Борис Павлович</p>
             <p>Номер группы: P3221</p>
             <p>Номер варианта: 2178</p>
+            <p id="currentTime"></p>
+            <h:commandLink value="Перейти на основную страницу" action="app" />
         </div>
-
-        <h:outputText id="currentTime" value="#{bean.getCurrentTime()}" escape="false" />
-
-        <h:commandLink value="Перейти на основную страницу" action="mainPage" />
     </h:form>
 </h:body>
 

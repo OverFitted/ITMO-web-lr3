@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo "Building project"
+
+./mvnw clean install
+
 echo "Deploying to Helios"
 
 ## Remove existing deployment

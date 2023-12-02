@@ -2,6 +2,7 @@ package com.example.lab3.entity;
 
 import jakarta.persistence.*;
 
+import java.sql.Date;
 import java.util.Objects;
 
 @Entity
@@ -11,6 +12,9 @@ public class ResultEntity {
     private int x;
     private double y;
     private double r;
+    private boolean isHit;
+    private double executionTime;
+    private Date requestTime;
 
     @Id
     @Column
@@ -49,6 +53,33 @@ public class ResultEntity {
 
     public void setR(double r) {
         this.r = r;
+    }
+
+    @Column
+    public boolean isHit() {
+        return isHit;
+    }
+
+    public void setHit(boolean isHit) {
+        this.isHit = isHit;
+    }
+
+    @Column
+    public double getExecutionTime() {
+        return executionTime;
+    }
+
+    public void setExecutionTime(double executionTime) {
+        this.executionTime = executionTime;
+    }
+
+    @Column
+    public Date getRequestTime() {
+        return requestTime;
+    }
+
+    public void setRequestTime(Date requestTime) {
+        this.requestTime = requestTime;
     }
 
     @Override
