@@ -5,6 +5,8 @@ import jakarta.annotation.PostConstruct;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
+
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
 
@@ -28,6 +30,7 @@ public class ResultsControllerBean implements Serializable {
         var resultDAO = daoFactory.getResultDAO();
         var resultsEntities = resultDAO.getAllResults();
         results = new ArrayList<>(resultsEntities);
+        Collections.reverse(results);
     }
 
     public void addResult(final int x, final double y, final double r) {
@@ -43,7 +46,7 @@ public class ResultsControllerBean implements Serializable {
         Double executionTime = (System.nanoTime() - startTime) / 1000.;
         resultEntity.setExecutionTime(executionTime);
 
-        results.add(resultEntity);
+        results.add(0, resultEntity);
         ResultUtils.addResult(resultEntity);
     }
 
