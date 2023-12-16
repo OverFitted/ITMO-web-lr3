@@ -46,22 +46,22 @@
         <div class="input-container">
             <h5 class="mt-0">Координата X (целое число):</h5>
             <h:panelGrid columns="1" style="margin-bottom: 10px">
-                <p:inputText id="x" value="#{dataBean.x}">
+                <p:inputText disabled="disabled" id="x" value="#{dataBean.x}">
                     <f:validateLongRange minimum="-2" maximum="2" />
                 </p:inputText>
                 <p:slider for="x" minValue="-2" maxValue="2" step="1" />
             </h:panelGrid>
 
-            <h5 class="mt-0">Координата Y:</h5>
+            <h5 class="mt-0">Координата Y (до 5 знака после запятой):</h5>
             <h:panelGrid columns="1" style="margin-bottom: 10px">
                 <p:inputText id="y" value="#{dataBean.y}">
-                    <f:validateLongRange minimum="-5" maximum="3" />
+                    <f:validateDoubleRange minimum="-5" maximum="3" />
                 </p:inputText>
             </h:panelGrid>
 
-            <h5 class="mt-0">Радиус:</h5>
+            <h5 class="mt-0">Радиус (до 5 знака после запятой):</h5>
             <h:panelGrid columns="1" style="margin-bottom: 10px">
-                <p:inputText id="r" value="#{dataBean.r}">
+                <p:inputText disabled="disabled" id="r" value="#{dataBean.r}">
                     <f:validateDoubleRange minimum="1" maximum="4" />
                 </p:inputText>
                 <p:slider for="r" minValue="1" maxValue="4" step=".5" />
@@ -69,7 +69,9 @@
 
             <p:commandButton value="Send" styleClass="submit-btn" ajax="true"
                 actionListener="#{resultsControllerBean.addResult(dataBean.x, dataBean.y, dataBean.r)}"
-                update="results-table" onclick="addPointCanvas(null, parseInt($('#x').val()), parseFloat($('#y').val()), parseFloat($('#r').val()));" />
+                update="results-table messages" onclick="addPointCanvas(null, parseInt($('#x').val()), parseFloat($('#y').val()).toFixed(5), parseFloat($('#r').val()).toFixed(5));" />
+
+            <p:messages id="messages" autoUpdate="true"/>
         </div>
 
         <p:remoteCommand name="sendPoint"
@@ -80,7 +82,7 @@
             <canvas id="graph" width="600" height="600"></canvas>
         </h:panelGroup>
 
-        <p:dataTable var="result" value="#{resultsControllerBean.results}" id="results-table">
+        <p:dataTable var="result" value="#{resultsControllerBean.results}" id="results-table" autoUpdate="true">
             <p:column headerText="Координата X">
                 <h:outputText value="#{result.x}" />
             </p:column>

@@ -105,5 +105,4 @@ public class ResultEntity {
                 ", r=" + r +
                 '}';
     }
-
 }
