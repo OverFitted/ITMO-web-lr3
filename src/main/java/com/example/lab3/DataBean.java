@@ -1,7 +1,5 @@
 package com.example.lab3;
 
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.validator.ValidatorException;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
 
