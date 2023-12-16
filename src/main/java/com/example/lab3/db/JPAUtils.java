@@ -15,7 +15,8 @@ public class JPAUtils {
             factory = Persistence.createEntityManagerFactory("default", info);
         } catch (Throwable ex) {
             System.err.println("Something went wrong during initializing EclipseLink: " + ex);
-            throw new ExceptionInInitializerError();
+            ex.printStackTrace();
+            throw new ExceptionInInitializerError(ex);
         }
     }
 

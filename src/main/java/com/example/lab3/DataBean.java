@@ -47,13 +47,6 @@ public class DataBean implements Serializable {
         this.r = r;
     }
 
-    public void validateDataBeanValue(Object o) {
-        if (o == null) {
-            FacesMessage message = new FacesMessage("Input values!");
-            throw new ValidatorException(message);
-        }
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o)

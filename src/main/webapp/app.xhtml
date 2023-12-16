@@ -44,7 +44,7 @@
 <h:body>
     <h:form prependId="false">
         <div class="input-container">
-            <h5 class="mt-0">Координата X:</h5>
+            <h5 class="mt-0">Координата X (целое число):</h5>
             <h:panelGrid columns="1" style="margin-bottom: 10px">
                 <p:inputText id="x" value="#{dataBean.x}">
                     <f:validateLongRange minimum="-2" maximum="2" />
@@ -90,7 +90,7 @@
             <p:column headerText="Радиус R">
                 <h:outputText value="#{result.r}" />
             </p:column>
-            <p:column headerText="Результат">
+            <p:column headerText="Результат (t/f)">
                 <h:outputText value="#{result.hit}" />
             </p:column>
             <p:column headerText="Время запроса">
@@ -102,7 +102,7 @@
         </p:dataTable>
     </h:form>
 
-    <h:commandLink value="Вернуться на стартовую страницу" action="start" />
+    <h:commandLink value="Вернуться на стартовую страницу" action="start?faces-redirect=true" />
 </h:body>
 
 </html>

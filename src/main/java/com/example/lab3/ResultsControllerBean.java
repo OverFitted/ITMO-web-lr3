@@ -33,7 +33,11 @@ public class ResultsControllerBean implements Serializable {
         Collections.reverse(results);
     }
 
-    public void addResult(final int x, final double y, final double r) {
+    public int addResult(final int x, final double y, final double r) {
+        if (x < -2 || x > 2 || y < -5 || y > 3 || r < 1 || r > 4) {
+            return 500;
+        }
+
         Long startTime = System.nanoTime();
 
         ResultEntity resultEntity = new ResultEntity();
@@ -48,6 +52,8 @@ public class ResultsControllerBean implements Serializable {
 
         results.add(0, resultEntity);
         ResultUtils.addResult(resultEntity);
+
+        return 200;
     }
 
     public DataBean getDataBean() {

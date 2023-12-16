@@ -42,7 +42,6 @@ function addPointCanvas(event, x, y, r) {
     var context = canvas.getContext('2d');
 
     if (event === null) {
-        console.log(x, y, r)
         x = x * (200 / r) + 300;
         y = 300 - y * (200 / r);
 
@@ -51,6 +50,5 @@ function addPointCanvas(event, x, y, r) {
     } else {
         context.fillStyle = '#f00';
         context.fillRect(event.pageX - canvas.offsetLeft, event.pageY - canvas.offsetTop, 10, 10);
-        console.log(x, y, r)
     }
 }
