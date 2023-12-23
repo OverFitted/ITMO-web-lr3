@@ -49,7 +49,7 @@
                 <p:inputText disabled="disabled" id="x" value="#{dataBean.x}">
                     <f:validateLongRange minimum="-2" maximum="2" />
                 </p:inputText>
-                <p:slider for="x" minValue="-2" maxValue="2" step="1" />
+                <p:slider autoUpdate="true" for="x" minValue="-2" maxValue="2" step="1" />
             </h:panelGrid>
 
             <h5 class="mt-0">Координата Y (до 5 знака после запятой):</h5>
@@ -64,7 +64,7 @@
                 <p:inputText disabled="disabled" id="r" value="#{dataBean.r}">
                     <f:validateDoubleRange minimum="1" maximum="4" />
                 </p:inputText>
-                <p:slider for="r" minValue="1" maxValue="4" step=".5" />
+                <p:slider autoUpdate="true" for="r" minValue="1" maxValue="4" step=".5" />
             </h:panelGrid>
 
             <p:commandButton value="Send" styleClass="submit-btn" ajax="true"
