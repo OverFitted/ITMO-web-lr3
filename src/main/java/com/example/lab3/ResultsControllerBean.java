@@ -13,29 +13,27 @@ import jakarta.inject.Named;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.example.lab3.db.DAOFactory;
+import com.example.lab3.db.ResultDAO;
 import com.example.lab3.entity.ResultEntity;
 import com.example.lab3.utils.ResultUtils;
 
 @Named
 @SessionScoped
 public class ResultsControllerBean implements Serializable {
-    private DataBean dataBean;
     private ArrayList<ResultEntity> results = new ArrayList<>();
     private String resultsAsJson;
 
     @PostConstruct
     public void init() {
-        var daoFactory = DAOFactory.getInstance();
-        var resultDAO = daoFactory.getResultDAO();
+        var resultDAO = ResultDAO.getInstance();
         var resultsEntities = resultDAO.getAllResults();
         results = new ArrayList<>(resultsEntities);
         Collections.reverse(results);
     }
 
-    public int addResult(final int x, final double y, final double r) {
+    public void addResult(final int x, final double y, final double r) {
         if (x < -2 || x > 2 || y < -5 || y > 3 || r < 1 || r > 4) {
-            return 500;
+            return;
         }
 
         Long startTime = System.nanoTime();
@@ -50,18 +48,8 @@ public class ResultsControllerBean implements Serializable {
         Double executionTime = (System.nanoTime() - startTime) / 1000.;
         resultEntity.setExecutionTime(executionTime);
 
-        results.add(0, resultEntity);
         ResultUtils.addResult(resultEntity);
-
-        return 200;
-    }
-
-    public DataBean getDataBean() {
-        return dataBean;
-    }
-
-    public void setDataBean(DataBean dataBean) {
-        this.dataBean = dataBean;
+        results.add(0, resultEntity);
     }
 
     public ArrayList<ResultEntity> getResults() {

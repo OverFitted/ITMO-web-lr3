@@ -56,7 +56,7 @@ public class ResultEntity {
     }
 
     @Column
-    public boolean isHit() {
+    public boolean getHit() {
         return isHit;
     }
 
